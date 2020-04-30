@@ -53,6 +53,18 @@ app.post("/address", (req, res) => {
   );
 });
 
+app.delete('/address/:id', (req, res) => {
+  const { id } = req.params;
+  const indexOfAddress = data.findIndex(obj => obj.id == id);
+  const deletedName = data[indexOfAddress].firstName;
+  if (indexOfAddress === -1) {
+    return res.status(404).json({ error: "Address not found!" })
+  } else {
+    data.splice(indexOfAddress, 1)
+    res.json({ message: `Congrats! You deleted ${deletedName}'s address.` });
+  }
+})
+
 app.use(function errorMiddleWare(err, req, res, next) {
   let response;
   if (NODE_ENV === "production") {
